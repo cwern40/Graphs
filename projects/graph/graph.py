@@ -90,27 +90,24 @@ class Graph:
         breath-first order.
         """
         plan_to_visit = Queue()
-        current_vertex = [starting_vertex]
-        plan_to_visit.enqueue(current_vertex)
-        visited_vertices = []
+        current_path = [starting_vertex]
+        plan_to_visit.enqueue(current_path)
+        visited_vertices = set()
 
-        while current_vertex[-1] is not destination_vertex:
-            current_vertex = plan_to_visit.dequeue()
+        while plan_to_visit.size() > 0:
+            current_path = plan_to_visit.dequeue()
 
-            if current_vertex not in visited_vertices:
-                visited_vertices.append(current_vertex)
+            if current_path[-1] not in visited_vertices:
+
+                if current_path[-1] == destination_vertex:
+                    return current_path
+
+                visited_vertices.add(current_path[-1])
                 
-                for neighbor in self.get_neighbors(current_vertex[-1]):
-                    new_path = current_vertex[:]
+                for neighbor in self.get_neighbors(current_path[-1]):
+                    new_path = current_path[:]
                     new_path.append(neighbor)
-                    for path in visited_vertices:
-                        add = True
-                        if path == new_path:
-                            add = False
-                    if add:
-                        plan_to_visit.enqueue(new_path)
-        
-        return current_vertex
+                    plan_to_visit.enqueue(new_path)
 
     def dfs(self, starting_vertex, destination_vertex):
         """
@@ -119,26 +116,24 @@ class Graph:
         depth-first order.
         """
         plan_to_visit = Stack()
-        current_vertex = [starting_vertex]
-        plan_to_visit.push(current_vertex)
-        visited_vertices = []
+        current_path = [starting_vertex]
+        plan_to_visit.push(current_path)
+        visited_vertices = set()
 
-        while current_vertex[-1] is not destination_vertex:
-            current_vertex = plan_to_visit.pop()
+        while plan_to_visit.size() > 0:
+            current_path = plan_to_visit.pop()
 
-            if current_vertex not in visited_vertices:
-                visited_vertices.append(current_vertex)
+            if current_path[-1] not in visited_vertices:
+
+                if current_path[-1] == destination_vertex:
+                    return current_path
+
+                visited_vertices.add(current_path[-1])
                 
-                for neighbor in self.get_neighbors(current_vertex[-1]):
-                    new_path = current_vertex[:]
+                for neighbor in self.get_neighbors(current_path[-1]):
+                    new_path = current_path[:]
                     new_path.append(neighbor)
-                    for path in visited_vertices:
-                        add = True
-                        if path == new_path:
-                            add = False
-                    if add:
-                        plan_to_visit.push(new_path)
-        return current_vertex
+                    plan_to_visit.push(new_path)
 
     def dfs_recursive(self, starting_vertex, destination_vertex):
         """
