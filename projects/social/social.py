@@ -95,16 +95,13 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
         friends_to_visit = Queue()
         current_path = [user_id]
-        visited_friends = set()
         friends_to_visit.enqueue(current_path)
 
         while friends_to_visit.size() > 0:
             current_path = friends_to_visit.dequeue()
 
-            if current_path[-1] not in visited_friends:
-                if current_path[-1] != user_id:
-                    visited[current_path[-1]] = current_path
-                visited_friends.add(current_path[-1])
+            if current_path[-1] not in visited:
+                visited[current_path[-1]] = current_path
 
                 for friend in self.friendships[current_path[-1]]:
                     new_path = current_path[:]
